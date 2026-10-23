@@ -1,5 +1,5 @@
 # Build estático (musl) e imagem final só com o binário e as regras.
-FROM rust:1.90-alpine AS build
+FROM rust:1.99.1-alpine AS build
 RUN apk add --no-cache musl-dev
 WORKDIR /src
 COPY motor/Cargo.toml motor/Cargo.lock ./

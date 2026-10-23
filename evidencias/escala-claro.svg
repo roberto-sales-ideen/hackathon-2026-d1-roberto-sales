@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" width="960" height="470" font-family="system-ui, -apple-system, Segoe UI, sans-serif">
+<rect width="960" height="470" fill="#fcfcfb"/>
+<text x="40" y="38" font-size="18" font-weight="600" fill="#0b0b0b">Tempo do motor por quantidade de duplicatas</text>
+<text x="40" y="60" font-size="13" fill="#52514e">Mediana de 5 execuções (nativo) e 3 (Docker); entradas montadas repetindo o conjunto grande com ids novos</text>
+<line x1="40" y1="86" x2="60" y2="86" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="50" cy="86" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<text x="68" y="90" font-size="13" fill="#0b0b0b">Nativo (Apple M1 Pro): <tspan fill="#52514e">t = 0,009 s + 0,98 µs × linhas (R² = 0,9998)</tspan></text>
+<line x1="40" y1="108" x2="60" y2="108" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="50" cy="108" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<text x="68" y="112" font-size="13" fill="#0b0b0b">Docker, --cpus=1: <tspan fill="#52514e">t = 0,248 s + 1,77 µs × linhas (R² = 0,9985)</tspan></text>
+<text x="90" y="136" font-size="13" font-weight="600" fill="#0b0b0b">Tempo total (s): pontos medidos e reta ajustada</text>
+<line x1="90" y1="400.0" x2="450" y2="400.0" stroke="#c3c2b7" stroke-width="1"/>
+<text x="82" y="404.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">0</text>
+<line x1="90" y1="337.5" x2="450" y2="337.5" stroke="#e1e0d9" stroke-width="1"/>
+<text x="82" y="341.5" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">1</text>
+<line x1="90" y1="275.0" x2="450" y2="275.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="82" y="279.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">2</text>
+<line x1="90" y1="212.5" x2="450" y2="212.5" stroke="#e1e0d9" stroke-width="1"/>
+<text x="82" y="216.5" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">3</text>
+<line x1="90" y1="150.0" x2="450" y2="150.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="82" y="154.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">4</text>
+<line x1="90.0" y1="400" x2="90.0" y2="404" stroke="#c3c2b7" stroke-width="1"/>
+<text x="90.0" y="418" font-size="11" text-anchor="middle" fill="#898781">0</text>
+<line x1="180.0" y1="400" x2="180.0" y2="404" stroke="#c3c2b7" stroke-width="1"/>
+<text x="180.0" y="418" font-size="11" text-anchor="middle" fill="#898781">400 mil</text>
+<line x1="270.0" y1="400" x2="270.0" y2="404" stroke="#c3c2b7" stroke-width="1"/>
+<text x="270.0" y="418" font-size="11" text-anchor="middle" fill="#898781">800 mil</text>
+<line x1="360.0" y1="400" x2="360.0" y2="404" stroke="#c3c2b7" stroke-width="1"/>
+<text x="360.0" y="418" font-size="11" text-anchor="middle" fill="#898781">1,2 mi</text>
+<line x1="450.0" y1="400" x2="450.0" y2="404" stroke="#c3c2b7" stroke-width="1"/>
+<text x="450.0" y="418" font-size="11" text-anchor="middle" fill="#898781">1,6 mi</text>
+<text x="270.0" y="438" font-size="12" text-anchor="middle" fill="#52514e">linhas na entrada</text>
+<line x1="90.0" y1="399.5" x2="450.0" y2="301.2" stroke="#2a78d6" stroke-width="2" stroke-linecap="round"/>
+<circle cx="90.2" cy="399.2" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="90.7" cy="399.1" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="92.2" cy="398.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="96.8" cy="397.4" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="112.5" cy="393.3" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="135.0" cy="387.4" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="180.0" cy="375.2" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="270.0" cy="351.4" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="450.0" cy="300.6" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<line x1="90.0" y1="384.5" x2="450.0" y2="207.6" stroke="#eb6834" stroke-width="2" stroke-linecap="round"/>
+<circle cx="90.2" cy="381.4" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="90.7" cy="383.7" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="92.2" cy="381.5" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="96.8" cy="381.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="112.5" cy="373.5" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="135.0" cy="364.6" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="180.0" cy="342.7" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="270.0" cy="299.3" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="450.0" cy="205.0" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<text x="590" y="136" font-size="13" font-weight="600" fill="#0b0b0b">Vazão (mil linhas por segundo); eixo x em escala log</text>
+<line x1="590" y1="400.0" x2="930" y2="400.0" stroke="#c3c2b7" stroke-width="1"/>
+<text x="582" y="404.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">0</text>
+<line x1="590" y1="350.0" x2="930" y2="350.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="582" y="354.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">250</text>
+<line x1="590" y1="300.0" x2="930" y2="300.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="582" y="304.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">500</text>
+<line x1="590" y1="250.0" x2="930" y2="250.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="582" y="254.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">750</text>
+<line x1="590" y1="200.0" x2="930" y2="200.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="582" y="204.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">1.000</text>
+<line x1="590" y1="150.0" x2="930" y2="150.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="582" y="154.0" font-size="11" text-anchor="end" fill="#898781" style="font-variant-numeric: tabular-nums">1.250</text>
+<line x1="590.0" y1="400" x2="590.0" y2="404" stroke="#c3c2b7" stroke-width="1"/>
+<text x="590.0" y="418" font-size="11" text-anchor="middle" fill="#898781">1 mil</text>
+<line x1="696.1" y1="400" x2="696.1" y2="404" stroke="#c3c2b7" stroke-width="1"/>
+<text x="696.1" y="418" font-size="11" text-anchor="middle" fill="#898781">10 mil</text>
+<line x1="802.2" y1="400" x2="802.2" y2="404" stroke="#c3c2b7" stroke-width="1"/>
+<text x="802.2" y="418" font-size="11" text-anchor="middle" fill="#898781">100 mil</text>
+<line x1="908.3" y1="400" x2="908.3" y2="404" stroke="#c3c2b7" stroke-width="1"/>
+<text x="908.3" y="418" font-size="11" text-anchor="middle" fill="#898781">1 mi</text>
+<text x="760.0" y="438" font-size="12" text-anchor="middle" fill="#52514e">linhas na entrada</text>
+<path d="M590.0,385.1 L640.6,360.5 L696.1,309.1 L746.7,253.7 L802.2,214.5 L834.2,202.4 L866.1,198.5 L898.1,194.2 L930.0,198.7" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="590.0" cy="385.1" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="640.6" cy="360.5" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="696.1" cy="309.1" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="746.7" cy="253.7" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="802.2" cy="214.5" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="834.2" cy="202.4" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="866.1" cy="198.5" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="898.1" cy="194.2" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="930.0" cy="198.7" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<path d="M590.0,399.3 L640.6,397.7 L696.1,393.3 L746.7,380.3 L802.2,352.8 L834.2,329.3 L866.1,312.8 L898.1,300.7 L930.0,297.4" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="590.0" cy="399.3" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="640.6" cy="397.7" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="696.1" cy="393.3" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="746.7" cy="380.3" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="802.2" cy="352.8" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="834.2" cy="329.3" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="866.1" cy="312.8" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="898.1" cy="300.7" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="930.0" cy="297.4" r="4" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+</svg>

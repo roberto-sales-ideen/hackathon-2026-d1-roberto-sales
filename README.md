@@ -120,6 +120,22 @@ execuções), num Apple M1 Pro com Docker Desktop:
 No grande, uns 0,30 s são do próprio `docker run` (subir e derrubar o container); o mesmo comando
 sem Docker leva 0,22 s, e o oráculo em Python, 3,2 s.
 
+### Como o tempo cresce com o número de linhas
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="evidencias/escala-escuro.svg">
+  <img alt="Tempo do motor de mil a 1,6 milhão de linhas: duas retas, nativo e Docker; a vazão sobe e se estabiliza" src="evidencias/escala-claro.svg">
+</picture>
+
+O tempo cresce em linha reta, de mil a 1,6 milhão de linhas (8 vezes o conjunto grande):
+0,009 s + 0,98 µs por linha no nativo (R² = 0,9998) e 0,248 s + 1,77 µs por linha no Docker
+(R² = 0,9985). A vazão sobe nas entradas pequenas porque o custo fixo (subir o processo e, no
+Docker, o container) se dilui, e se estabiliza perto de 1 milhão de linhas por segundo no nativo.
+No Docker, o último trecho (de 800 mil para 1,6 milhão) custa um pouco mais por linha, 1,89 µs
+contra 1,73 µs no trecho anterior, o que atribuo à leitura de 1,3 GB pelo bind mount (não medido
+separadamente). Números em [evidencias/escala.csv](evidencias/escala.csv); para refazer,
+`python3 testes/escala.py`.
+
 O `testes/rodar.sh` confere, além disso: a árvore em que cada regra do YAML compila, os casos
 manuais, UTF-8 inválido, `--todas` contra o oráculo, as regras em ordem inversa (cada linha passa a
 ser da última regra que satisfazia, sem recompilar), o segundo domínio e a recusa de regra mal
@@ -177,8 +193,8 @@ Onde errou, e como foi corrigido:
 | `regras/regras.yaml` | as regras |
 | `motor/` | o motor (Rust) e o teste da linguagem das regras |
 | `Dockerfile` | build estático e imagem `scratch` com o binário e as regras (0,8 MB) |
-| `testes/` | oráculo, gerador de bordas, casos manuais, `rodar.sh` |
+| `testes/` | oráculo, gerador de bordas, casos manuais, `rodar.sh`, `escala.py` (medição de escala) |
 | `dominios/pedidos/` | segundo domínio |
 | `ferramentas/extrair_regras.py` | gera o `regras.yaml` a partir do enunciado |
-| `evidencias/` | saídas do `medir.py` e a máquina usada |
+| `evidencias/` | saídas do `medir.py`, a máquina usada e a medição de escala (CSV e gráfico) |
 | `NOTAS-IA.md` | onde a IA acelerou e onde errou, item a item |
