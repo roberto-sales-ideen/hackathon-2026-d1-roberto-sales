@@ -1,0 +1,47 @@
+# Segundo domínio: triagem de pedidos de e-commerce. É o mesmo motor das duplicatas, sem mudar
+# uma linha de código: muda só este arquivo. Mesma linguagem do `quando` (ver regras/regras.yaml).
+#
+#   motor --regras dominios/pedidos/regras.yaml --entrada dominios/pedidos/entrada.jsonl
+
+campo_id: pedido
+sem_regra: SEM_TRIAGEM
+
+constantes:
+  data_corte: "2026-10-23"
+  limite_antifraude: 3000
+
+campos:
+  pedido: numero
+  valor_total: numero
+  primeira_compra: booleano
+  cupom: texto
+  cliente.tipo: texto
+  cliente.uf: texto
+  pagamento.metodo: texto
+  pagamento.parcelas: numero
+  frete.valor: numero
+  entrega.prevista: data
+  entrega.realizada: data
+
+regras:
+  - codigo: T01
+    categoria: Revisão antifraude
+    quando: pagamento.metodo = CARTAO E primeira_compra é verdadeiro E valor_total ≥ limite_antifraude
+  - codigo: T02
+    categoria: Entrega atrasada sem baixa
+    quando: entrega.realizada está vazio E entrega.prevista < data_corte
+  - codigo: T03
+    categoria: Entregue fora do prazo
+    quando: entrega.realizada > entrega.prevista
+  - codigo: T04
+    categoria: Frete maior que a mercadoria
+    quando: frete.valor > valor_total
+  - codigo: T05
+    categoria: Cupom de parceiro
+    quando: cupom começa com PARC
+  - codigo: T06
+    categoria: Cliente corporativo fora do Sudeste
+    quando: cliente.tipo = PJ E NÃO (cliente.uf é SP, RJ, MG ou ES)
+  - codigo: T07
+    categoria: Parcelamento longo
+    quando: pagamento.parcelas ≥ 10 OU (pagamento.metodo = BOLETO E pagamento.parcelas > 1)

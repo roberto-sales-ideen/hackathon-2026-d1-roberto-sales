@@ -1,0 +1,93 @@
+# Regras do Desafio 1, geradas de ENUNCIADO.md por ferramentas/extrair_regras.py.
+#
+# A ordem da lista é a ordem de avaliação: a primeira regra satisfeita classifica.
+#
+# Linguagem do `quando`, a mesma notação da tabela do enunciado:
+#   E, OU                     operadores lógicos (maiúsculas); E vem antes de OU; ( ) agrupa
+#   = ≠ < ≤ > ≥               comparação (também != <= >=)
+#   é A, B ou C               pertence à lista ("ou" minúsculo separa itens)
+#   está vazio                ausente, nulo ou texto vazio
+#   começa com X              prefixo de texto
+#   é verdadeiro / é falso    booleano do JSON
+# Uma palavra declarada em `campos:` é campo; uma declarada em `constantes:` é constante; o resto
+# é literal (aspas forçam literal). Literal e constante assumem o tipo do campo comparado.
+
+campo_id: id
+sem_regra: SEM_REGRA
+
+constantes:
+  data_referencia: "2026-10-23"
+
+campos:
+  id: numero
+  iud: texto
+  numero: texto
+  status: texto
+  data_emissao: data
+  data_vencimento: data
+  sacador.cnpj: texto
+  sacador.uf: texto
+  sacador.porte: texto
+  sacado.cnpj: texto
+  sacado.uf: texto
+  sacado.segmento: texto
+  financeiro.valor: numero
+  financeiro.valor_pago: numero
+  financeiro.moeda: texto
+  financeiro.parcela: numero
+  financeiro.total_parcelas: numero
+  financeiro.tipo_negociacao: texto
+  financeiro.taxa_juros_mensal: numero
+  pagamento.instrumento: texto
+  pagamento.compe: texto
+  pagamento.tipo_conta: texto
+  fiscal.chave_nfe: texto
+  fiscal.cfop: texto
+  logistica.modal: texto
+  logistica.transportadora_cnpj: texto
+  logistica.uf_origem: texto
+  logistica.uf_destino: texto
+  logistica.peso_kg: numero
+  logistica.status_entrega: texto
+  logistica.data_entrega: data
+  logistica.migo: booleano
+  manifestacao.tipo: texto
+  manifestacao.data: data
+
+regras:
+  - codigo: R01
+    categoria: Fora da carteira
+    quando: status é CANCELADA ou LIQUIDADA
+  - codigo: R02
+    categoria: Risco de operação inexistente
+    quando: logistica.status_entrega = DEVOLVIDA OU manifestacao.tipo = RCOP
+  - codigo: R03
+    categoria: Recusada pelo sacado
+    quando: manifestacao.tipo é RCAV, RCQQ, RCVN ou RCVL
+  - codigo: R04
+    categoria: Candidata a recusa por avaria
+    quando: logistica.status_entrega = AVARIADA E manifestacao.tipo está vazio
+  - codigo: R05
+    categoria: Vencida em aberto
+    quando: data_vencimento < data_referencia E financeiro.valor_pago < financeiro.valor
+  - codigo: R06
+    categoria: Garantia relevante
+    quando: financeiro.tipo_negociacao é CSFD ou PENR E financeiro.valor ≥ 100000
+  - codigo: R07
+    categoria: Alto valor
+    quando: financeiro.valor ≥ 500000 OU (sacado.segmento = AGRO E financeiro.valor ≥ 200000)
+  - codigo: R08
+    categoria: CFOP interno em operação interestadual
+    quando: logistica.uf_origem ≠ logistica.uf_destino E fiscal.cfop começa com 5
+  - codigo: R09
+    categoria: Frete aéreo pesado
+    quando: logistica.modal = AEREO E logistica.peso_kg > 500
+  - codigo: R10
+    categoria: Entregue sem recebimento no ERP
+    quando: logistica.status_entrega = ENTREGUE E logistica.migo é falso
+  - codigo: R11
+    categoria: Apta para antecipação
+    quando: manifestacao.tipo = ACTO E logistica.migo é verdadeiro
+  - codigo: R12
+    categoria: Pequeno valor via Pix
+    quando: pagamento.instrumento = PPIX E sacador.porte é ME ou EPP E financeiro.valor ≤ 5000

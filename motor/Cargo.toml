@@ -1,0 +1,18 @@
+[package]
+name = "motor"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+memchr = "2.8.3"
+memmap2 = "0.9.12"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_yaml_ng = "0.10.0"
+
+[dev-dependencies]
+serde_json = "1.0.154"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"

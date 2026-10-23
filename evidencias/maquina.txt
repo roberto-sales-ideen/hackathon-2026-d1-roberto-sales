@@ -1,0 +1,6 @@
+# Máquina
+data: 2026-10-23 16:47
+host: Apple M1 Pro, 8 núcleos, macOS 26.6.2
+docker: 24.0.7 (Docker Desktop, aarch64)
+imagem: 829kB
+comando: docker run --rm --cpus=1 -v {dir}:/dados motor-regras --entrada /dados/{arquivo}

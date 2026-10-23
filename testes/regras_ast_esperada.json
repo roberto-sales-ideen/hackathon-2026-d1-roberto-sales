@@ -1,0 +1,102 @@
+{
+  "constantes": {
+    "data_referencia": "2026-10-23"
+  },
+  "sem_regra": "SEM_REGRA",
+  "regras": [
+    {
+      "codigo": "R01",
+      "categoria": "Fora da carteira",
+      "condicao": { "campo": "status", "op": "em", "valor": ["CANCELADA", "LIQUIDADA"] }
+    },
+    {
+      "codigo": "R02",
+      "categoria": "Risco de operação inexistente",
+      "condicao": { "ou": [
+        { "campo": "logistica.status_entrega", "op": "=", "valor": "DEVOLVIDA" },
+        { "campo": "manifestacao.tipo", "op": "=", "valor": "RCOP" }
+      ] }
+    },
+    {
+      "codigo": "R03",
+      "categoria": "Recusada pelo sacado",
+      "condicao": { "campo": "manifestacao.tipo", "op": "em", "valor": ["RCAV", "RCQQ", "RCVN", "RCVL"] }
+    },
+    {
+      "codigo": "R04",
+      "categoria": "Candidata a recusa por avaria",
+      "condicao": { "e": [
+        { "campo": "logistica.status_entrega", "op": "=", "valor": "AVARIADA" },
+        { "campo": "manifestacao.tipo", "op": "vazio" }
+      ] }
+    },
+    {
+      "codigo": "R05",
+      "categoria": "Vencida em aberto",
+      "condicao": { "e": [
+        { "campo": "data_vencimento", "op": "<", "tipo": "data", "constante": "data_referencia" },
+        { "campo": "financeiro.valor_pago", "op": "<", "tipo": "numero", "outro_campo": "financeiro.valor" }
+      ] }
+    },
+    {
+      "codigo": "R06",
+      "categoria": "Garantia relevante",
+      "condicao": { "e": [
+        { "campo": "financeiro.tipo_negociacao", "op": "em", "valor": ["CSFD", "PENR"] },
+        { "campo": "financeiro.valor", "op": ">=", "valor": 100000 }
+      ] }
+    },
+    {
+      "codigo": "R07",
+      "categoria": "Alto valor",
+      "condicao": { "ou": [
+        { "campo": "financeiro.valor", "op": ">=", "valor": 500000 },
+        { "e": [
+          { "campo": "sacado.segmento", "op": "=", "valor": "AGRO" },
+          { "campo": "financeiro.valor", "op": ">=", "valor": 200000 }
+        ] }
+      ] }
+    },
+    {
+      "codigo": "R08",
+      "categoria": "CFOP interno em operação interestadual",
+      "condicao": { "e": [
+        { "campo": "logistica.uf_origem", "op": "!=", "tipo": "texto", "outro_campo": "logistica.uf_destino" },
+        { "campo": "fiscal.cfop", "op": "comeca_com", "valor": "5" }
+      ] }
+    },
+    {
+      "codigo": "R09",
+      "categoria": "Frete aéreo pesado",
+      "condicao": { "e": [
+        { "campo": "logistica.modal", "op": "=", "valor": "AEREO" },
+        { "campo": "logistica.peso_kg", "op": ">", "valor": 500 }
+      ] }
+    },
+    {
+      "codigo": "R10",
+      "categoria": "Entregue sem recebimento no ERP",
+      "condicao": { "e": [
+        { "campo": "logistica.status_entrega", "op": "=", "valor": "ENTREGUE" },
+        { "campo": "logistica.migo", "op": "falso" }
+      ] }
+    },
+    {
+      "codigo": "R11",
+      "categoria": "Apta para antecipação",
+      "condicao": { "e": [
+        { "campo": "manifestacao.tipo", "op": "=", "valor": "ACTO" },
+        { "campo": "logistica.migo", "op": "verdadeiro" }
+      ] }
+    },
+    {
+      "codigo": "R12",
+      "categoria": "Pequeno valor via Pix",
+      "condicao": { "e": [
+        { "campo": "pagamento.instrumento", "op": "=", "valor": "PPIX" },
+        { "campo": "sacador.porte", "op": "em", "valor": ["ME", "EPP"] },
+        { "campo": "financeiro.valor", "op": "<=", "valor": 5000 }
+      ] }
+    }
+  ]
+}
