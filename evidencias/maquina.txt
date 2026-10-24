@@ -1,6 +1,7 @@
 # Máquina
-data: 2026-10-23 16:47
+data: 2026-10-24 08:36
 host: Apple M1 Pro, 8 núcleos, macOS 26.6.2
 docker: 24.0.7 (Docker Desktop, aarch64)
-imagem: 829kB
+complemento: 29.8.2 (OrbStack, aarch64), só em grande-orbstack.txt
+imagem: 776kB, Rust 1.99.1 com PGO
 comando: docker run --rm --cpus=1 -v {dir}:/dados motor-regras --entrada /dados/{arquivo}

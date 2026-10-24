@@ -76,6 +76,13 @@ por vez, chaves são comparadas pelos 8 primeiros bytes como um inteiro, e o arq
 mapeado em memória. Cada mudança entrou só depois de medida no Docker com 1 CPU; uma thread de
 leitura em paralelo foi medida, não ganhou nada e saiu.
 
+A imagem é compilada com PGO (*profile-guided optimization*): o motor é compilado instrumentado,
+roda uma vez sobre o conjunto pequeno repetido 2.000 vezes e é recompilado sabendo quais caminhos
+do código são os quentes. Isso corta ~15% do CPU do motor (0,18 s para 0,155 s no grande, dentro
+do container). O PGO muda só a organização do código de máquina: nenhum literal das regras entra
+no binário, e o `testes/rodar.sh --docker` confere, com o binário da imagem, as bordas, as regras
+em ordem inversa e o segundo domínio, todos sem recompilar.
+
 ## Como reproduzir
 
 Precisa de Docker. Para rodar fora do Docker e os testes: Rust 1.85 ou mais novo e Python 3.
@@ -113,12 +120,15 @@ execuções), num Apple M1 Pro com Docker Desktop:
 
 | Conjunto | Acertos | Mediana |
 |---|---|---|
-| pequeno | 100 de 100 | 0,276 s |
-| grande | 200.000 de 200.000 | 0,619 s |
-| bordas geradas | 269.692 de 269.692 | 0,733 s |
+| pequeno | 100 de 100 | 0,268 s |
+| grande | 200.000 de 200.000 | 0,636 s |
+| bordas geradas | 269.692 de 269.692 | 0,729 s |
+| grande, no OrbStack | 200.000 de 200.000 | 0,613 s |
 
-No grande, uns 0,30 s são do próprio `docker run` (subir e derrubar o container); o mesmo comando
-sem Docker leva 0,22 s, e o oráculo em Python, 3,2 s.
+No grande, uns 0,27 s são do próprio `docker run` (subir e derrubar o container); o mesmo comando
+sem Docker leva 0,22 s, e o oráculo em Python, 3,2 s. A mediana de três execuções no Docker varia
+uns 30 ms de uma rodada para outra, o mesmo tamanho do ganho do PGO no grande; por isso o efeito
+dele aparece melhor nas entradas maiores do gráfico abaixo.
 
 ### Como o tempo cresce com o número de linhas
 
@@ -128,12 +138,12 @@ sem Docker leva 0,22 s, e o oráculo em Python, 3,2 s.
 </picture>
 
 O tempo cresce em linha reta, de mil a 1,6 milhão de linhas (8 vezes o conjunto grande):
-0,009 s + 0,98 µs por linha no nativo (R² = 0,9998) e 0,248 s + 1,77 µs por linha no Docker
-(R² = 0,9985). A vazão sobe nas entradas pequenas porque o custo fixo (subir o processo e, no
+0,010 s + 0,97 µs por linha no nativo (R² = 0,99998) e 0,273 s + 1,54 µs por linha no Docker
+(R² = 0,9998). A vazão sobe nas entradas pequenas porque o custo fixo (subir o processo e, no
 Docker, o container) se dilui, e se estabiliza perto de 1 milhão de linhas por segundo no nativo.
-No Docker, o último trecho (de 800 mil para 1,6 milhão) custa um pouco mais por linha, 1,89 µs
-contra 1,73 µs no trecho anterior, o que atribuo à leitura de 1,3 GB pelo bind mount (não medido
-separadamente). Números em [evidencias/escala.csv](evidencias/escala.csv); para refazer,
+O binário do Docker é o da imagem, com PGO; o nativo é o build comum do `cargo`, sem PGO. Antes do
+PGO, a reta do Docker era 1,77 µs por linha, e 1,6 milhão de linhas levavam 3,12 s; com ele,
+2,72 s. Números em [evidencias/escala.csv](evidencias/escala.csv); para refazer,
 `python3 testes/escala.py`.
 
 O `testes/rodar.sh` confere, além disso: a árvore em que cada regra do YAML compila, os casos
@@ -192,7 +202,7 @@ Onde errou, e como foi corrigido:
 | `hackathon-2026-d1-kit/` | kit do desafio, intocado: enunciado, apresentação, `medir.py` e dados |
 | `regras/regras.yaml` | as regras |
 | `motor/` | o motor (Rust) e o teste da linguagem das regras |
-| `Dockerfile` | build estático e imagem `scratch` com o binário e as regras (0,8 MB) |
+| `Dockerfile` | build estático com PGO e imagem `scratch` com o binário e as regras (0,8 MB) |
 | `testes/` | oráculo, gerador de bordas, casos manuais, `rodar.sh`, `escala.py` (medição de escala) |
 | `dominios/pedidos/` | segundo domínio |
 | `ferramentas/extrair_regras.py` | gera o `regras.yaml` a partir do enunciado |

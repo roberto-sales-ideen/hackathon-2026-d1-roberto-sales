@@ -79,6 +79,18 @@ if [ "${1:-}" = "--docker" ]; then
     D="docker run --rm --cpus=1 -v {dir}:/dados motor-regras --entrada /dados/{arquivo}"
     confere "pequeno no docker: 100%" cem_porcento --set pequeno --cmd "$D"
     confere "grande no docker: 100%" cem_porcento --set grande --cmd "$D"
+    # o binário da imagem é compilado com PGO: os mesmos testes de ordem e de regras trocadas
+    cp testes/bordas/entrada.jsonl "$TMP/bordas.jsonl"
+    cp -r dominios/pedidos "$TMP/dominio_pedidos"
+    DR="docker run --rm -v $TMP:/t motor-regras"
+    $DR --entrada /t/bordas.jsonl > "$TMP/d.bordas"
+    confere "bordas no docker (binário PGO): igual ao gabarito" mesma_saida "$TMP/d.bordas" testes/bordas/gabarito.txt
+    $DR --entrada /t/bordas.jsonl --todas > "$TMP/d.todas"
+    confere "--todas no docker (binário PGO): igual ao oráculo" mesma_saida "$TMP/d.todas" "$TMP/todas.esperado"
+    $DR --regras /t/invertidas.yaml --entrada /t/bordas.jsonl > "$TMP/d.invertidas"
+    confere "regras invertidas no docker (binário PGO), sem recompilar" mesma_saida "$TMP/d.invertidas" "$TMP/invertidas.esperado"
+    $DR --regras /t/dominio_pedidos/regras.yaml --entrada /t/dominio_pedidos/entrada.jsonl > "$TMP/d.pedidos"
+    confere "segundo domínio no docker (binário PGO)" mesma_saida "$TMP/d.pedidos" dominios/pedidos/gabarito.txt
 fi
 
 echo

@@ -2,5 +2,5 @@ casos:            200000
 acertos:          200000 (100.00%)
 ids ausentes:     0
 linhas inválidas: 0
-tempos (s):       0.691, 0.581, 0.619
-mediana (s):      0.619
+tempos (s):       0.636, 0.650, 0.587
+mediana (s):      0.636

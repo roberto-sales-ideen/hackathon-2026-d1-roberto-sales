@@ -66,8 +66,16 @@ Registro corrido, para a seção do README. Cada item: o que aconteceu, como foi
     surpresa "não pode ter" UTF-8 inválido (só vale se a banca usar o `medir.py`). Reescrito como
     aposta e como condição.
 
+14. **Pasta de teste com o nome de um arquivo.** Ao levar os testes de ordem para o binário da
+    imagem, o `rodar.sh` copiou o segundo domínio para `$TMP/pedidos`, nome que o próprio script já
+    usava para um arquivo de saída. A cópia falhou e o teste acusou divergência no binário com PGO;
+    o erro era do script, e a pasta ganhou outro nome.
+
 ## Onde a otimização chegou
 
 Grande (160 MB, 200 mil linhas), com o arquivo em memória, no M1 Pro: 248 ms para 177 ms.
-No Docker com `--cpus=1`: 0,707 s para ~0,62 s, dos quais ~0,30 s são do próprio `docker run`.
-O CPU do motor dentro do container (0,18 s) é igual ao nativo.
+No Docker com `--cpus=1`: de 0,707 s para ~0,60 s, dos quais ~0,27 s são do próprio `docker run`.
+O PGO na imagem cortou mais ~15% do CPU do motor (0,18 s para 0,155 s dentro do container); com
+1,6 milhão de linhas, o Docker foi de 3,12 s para 2,72 s. O Beto questionou se o PGO feria a regra
+de trocar regras sem recompilar e a avaliação de cima para baixo; os testes de regras invertidas,
+`--todas` e segundo domínio rodam no binário da imagem e passam.
